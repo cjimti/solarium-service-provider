@@ -23,12 +23,30 @@ class SolariumServiceProvider implements ServiceProviderInterface
 
         $app[$this->prefix] = $app->share(
             function () use ($app) {
-                return new Client($app['solarium.config']);
+                return new Client($app[$this->prefix . '.config']);
             }
         );
     }
 
     public function boot(Application $app)
     {
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * @param string $prefix
+     * @return SolariumServiceProvider
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+        return $this;
     }
 }
